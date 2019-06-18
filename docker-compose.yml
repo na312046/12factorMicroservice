@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=test123!
+      - POSTGRES_DB=myDataBase
+  microservice:
+    depends_on:
+      - database
+    build: .
+    environment:
+      - REMOTE_DEBUGGING=${REMOTE_DEBUGGING}
+      - APP_Database:Host=database
+      - APP_Database:Name=MyDataBase
+      - APP_Database:User=postgres
+      - APP_Database:Password=test123!
+    ports:
+      - "80:80"
+    links:
+      - database
